@@ -9,14 +9,13 @@ import se331.rest.entity.Event;
 import se331.rest.entity.Organizer;
 
 import javax.transaction.Transactional;
-import java.util.List;
 
 @Service
 public class EventServiceImpl implements EventService {
     @Autowired
     EventDao eventDao;
-    @Autowired
 
+    @Autowired
     OrganizerDao organizerDao;
 
     @Override
@@ -38,13 +37,8 @@ public class EventServiceImpl implements EventService {
     @Transactional
     public Event save(Event event) {
         Organizer organizer = organizerDao.findById(event.getOrganizer().getId()).orElse(null);
-
         event.setOrganizer(organizer);
-
         organizer.getOwnEvents().add(event);
         return eventDao.save(event);
     }
-
-
 }
-
